@@ -1,0 +1,26 @@
+Document ID: FIN-INV-003
+Version: 1.0
+Effective Date: 01 August 2026
+
+1. PURPOSE
+This policy defines invoice validation and payment processing timelines.
+
+2. STANDARD TURNAROUND TIME
+2.1 The standard turnaround time is 8 business days from complete invoice
+receipt to payment release.
+2.2 Day 1 starts when Accounts Payable confirms the invoice packet is complete
+(invoice, purchase order reference, and goods/service confirmation).
+
+3. INVOICE MISMATCH HANDLING
+3.1 If an invoice amount differs from the purchase order by more than 2
+percent or INR 1,000 (whichever is higher), the invoice is put on hold.
+3.2 Accounts Payable notifies Procurement and the requesting department within
+1 business day of detecting a mismatch.
+3.3 Hold resolution target is 3 business days. If unresolved, escalation goes
+to the Finance Controller.
+
+4. DISPUTE RESOLUTION OWNERSHIP
+4.1 Commercial disputes with vendors are resolved jointly by Procurement Lead
+and Department Requestor.
+4.2 Final approval to release a disputed invoice after correction is given by
+Finance Controller.

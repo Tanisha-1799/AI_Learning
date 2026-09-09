@@ -1,0 +1,34 @@
+Document ID: FIN-EXP-001
+Version: 1.0
+Effective Date: 01 August 2026
+
+1. PURPOSE
+This policy defines reimbursable business expenses, approval thresholds, and
+submission timelines for employee reimbursement claims.
+
+2. REIMBURSABLE BUSINESS EXPENSES
+2.1 Reimbursable categories include local travel for client meetings,
+accommodation for approved business trips, meals during official travel,
+conference fees, and office supplies purchased for approved work.
+2.2 Non-reimbursable expenses include personal commuting, personal gifts,
+late-payment penalties due to employee delay, and entertainment without
+pre-approval.
+
+3. APPROVAL THRESHOLDS
+3.1 Up to INR 5,000 per claim: Reporting Manager approval is sufficient.
+3.2 Above INR 5,000 and up to INR 25,000: Reporting Manager plus Department
+Head approval is required.
+3.3 Above INR 25,000: Reporting Manager, Department Head, and Finance Head
+approval is required before reimbursement is processed.
+
+4. SUBMISSION DEADLINES
+4.1 Employees must submit claims within 10 calendar days from the date the
+expense is incurred.
+4.2 Claims submitted after 10 calendar days require written justification.
+4.3 Claims older than 45 calendar days are auto-rejected unless Finance Head
+approves an exception in writing.
+
+5. DOCUMENTATION
+5.1 Original receipts or valid e-receipts are mandatory for all claims above
+INR 1,000.
+5.2 Finance may request supporting documents within 3 business days.

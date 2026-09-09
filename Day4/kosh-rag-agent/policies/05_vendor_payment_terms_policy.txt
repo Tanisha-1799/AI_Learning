@@ -1,0 +1,27 @@
+Document ID: FIN-VPAY-005
+Version: 1.0
+Effective Date: 01 August 2026
+
+1. PURPOSE
+This policy defines standard payment terms, expedited payment conditions, and
+late-payment clauses for vendors.
+
+2. STANDARD TERMS
+2.1 Standard payment term for approved vendor invoices is Net 30 calendar days
+from invoice acceptance date.
+2.2 Any non-standard term must be approved during contracting by Procurement
+and Finance.
+
+3. EXPEDITED OR EARLY PAYMENT
+3.1 Expedited payment requests are allowed only when a business-critical
+service would be disrupted without earlier settlement.
+3.2 Expedited payment needs Department Head and Finance Head approval.
+3.3 Early payment discount requests may be accepted only if the discount is at
+least 1.5 percent of invoice value and cashflow impact is approved by Treasury.
+
+4. LATE PAYMENT CLAUSE
+4.1 Where vendor contracts include a late fee clause, NCS Telco+ may pay
+simple interest at 0.5 percent per month on overdue undisputed amounts,
+subject to contract terms.
+4.2 No late fee is payable when payment delay is caused by invoice defects,
+missing documents, or unresolved disputes attributable to the vendor.

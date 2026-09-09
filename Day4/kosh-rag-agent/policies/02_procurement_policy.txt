@@ -1,0 +1,29 @@
+Document ID: FIN-PROC-002
+Version: 1.0
+Effective Date: 01 August 2026
+
+1. PURPOSE
+This policy defines procurement controls, quote requirements, vendor onboarding
+approvals, and preferred-vendor exceptions.
+
+2. QUOTE REQUIREMENTS
+2.1 Purchases below INR 50,000 require at least 1 written quote.
+2.2 Purchases from INR 50,000 to INR 200,000 require at least 3 comparable
+vendor quotes.
+2.3 Purchases above INR 200,000 require at least 3 quotes and a commercial
+comparison sheet approved by Procurement and Finance.
+
+3. NEW VENDOR ONBOARDING
+3.1 New vendor onboarding must include legal name verification, tax details,
+bank account proof, and conflict-of-interest declaration.
+3.2 Final sign-off for onboarding a new vendor requires Procurement Manager
+and Finance Controller approval.
+
+4. PREFERRED VENDOR LIST (PVL)
+4.1 Teams must procure from PVL vendors where an equivalent offering exists.
+4.2 An exception to PVL requires a written business justification and approval
+from the Department Head and Procurement Manager.
+4.3 PVL exceptions above INR 200,000 also require Finance Head approval.
+
+5. RECORD RETENTION
+5.1 Procurement documents must be retained for 7 years.

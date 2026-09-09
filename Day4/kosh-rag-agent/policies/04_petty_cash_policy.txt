@@ -1,0 +1,25 @@
+Document ID: FIN-PC-004
+Version: 1.0
+Effective Date: 01 August 2026
+
+1. PURPOSE
+This policy governs petty cash withdrawals, receipt requirements, and
+reconciliation cadence.
+
+2. WITHDRAWAL LIMITS
+2.1 Maximum single petty cash withdrawal is INR 3,000.
+2.2 A department may not exceed INR 15,000 total petty cash usage in a calendar
+month without Finance Controller approval.
+
+3. RECEIPT REQUIREMENTS
+3.1 Reimbursement without a receipt is capped at INR 300 per instance.
+3.2 No more than 2 no-receipt reimbursements are allowed per employee in a
+calendar month.
+3.3 Claims above INR 300 without receipts are rejected automatically.
+
+4. RECONCILIATION
+4.1 Petty cash float is reconciled every Friday by the Petty Cash Custodian.
+4.2 Finance Operations performs a formal review on the last business day of
+each month.
+4.3 Any unexplained variance above INR 200 must be reported to the Finance
+Controller within 1 business day.

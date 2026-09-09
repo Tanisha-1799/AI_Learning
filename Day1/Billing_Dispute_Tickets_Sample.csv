@@ -1,0 +1,11 @@
+ticket_id,customer_id,date_raised,dispute_type,amount_disputed_inr,description,status
+BD-5001,CUST-88231,2026-07-20,Overcharge,450,"Customer billed for premium data pack not opted in for July cycle",Open
+BD-5002,CUST-77410,2026-07-21,Roaming Error,1200,"International roaming charges applied despite roaming being disabled in app",Open
+BD-5003,CUST-90112,2026-07-21,Plan Migration Error,300,"Charged old plan rate for 5 days after upgrading to new unlimited plan",Resolved
+BD-5004,CUST-65432,2026-07-22,Overcharge,80,"Duplicate late payment fee charged in same cycle",Resolved
+BD-5005,CUST-11209,2026-07-23,Roaming Error,2100,"Roaming data charges for a day customer says phone was in airplane mode",Open
+BD-5006,CUST-33654,2026-07-23,Plan Migration Error,150,"Partial month charged at two different plan rates without proration",Open
+BD-5007,CUST-90876,2026-07-24,Overcharge,600,"Value-added service auto-renewed after cancellation request",Resolved
+BD-5008,CUST-44521,2026-07-24,Other,0,"Customer disputes SMS charge for promotional message, claims never opted in",Open
+BD-5009,CUST-22987,2026-07-25,Roaming Error,950,"Roaming pack charged twice in one billing cycle",Open
+BD-5010,CUST-56780,2026-07-25,Plan Migration Error,220,"Wrong plan code applied during migration from prepaid to postpaid",Resolved

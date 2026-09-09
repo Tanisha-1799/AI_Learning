@@ -1,0 +1,8 @@
+openai
+python-dotenv
+chromadb
+fastapi
+uvicorn
+requests
+httpx
+python-certifi-win32
