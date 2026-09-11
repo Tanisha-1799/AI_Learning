@@ -1,0 +1,26 @@
+{
+  "reference_date": "2026-09-09",
+  "filings": [
+    {
+      "filing_id": "FIL-2201",
+      "jurisdiction": "Singapore",
+      "description": "Quarterly spectrum utilization report",
+      "due_date": "2026-08-31",
+      "status": "Overdue"
+    },
+    {
+      "filing_id": "FIL-2202",
+      "jurisdiction": "Malaysia",
+      "description": "Lawful interception compliance attestation",
+      "due_date": "2026-09-25",
+      "status": "Due Soon"
+    },
+    {
+      "filing_id": "FIL-2203",
+      "jurisdiction": "India",
+      "description": "Data localization annual declaration",
+      "due_date": "2026-11-15",
+      "status": "On Track"
+    }
+  ]
+}

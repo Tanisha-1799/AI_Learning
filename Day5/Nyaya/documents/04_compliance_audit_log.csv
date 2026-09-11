@@ -1,0 +1,7 @@
+audit_id,date,area_audited,finding,severity,status
+AUD-1001,2026-07-01,Data Retention,Retention schedule missing for logs,High,Open
+AUD-1002,2026-07-03,Access Control,Privileged accounts not reviewed,Medium,Open
+AUD-1003,2026-07-04,Vendor Due Diligence,Third-party SOC report outdated,Medium,Open
+AUD-0998,2026-06-15,Encryption,TLS baseline policy updated and enforced,Low,Closed
+AUD-0999,2026-06-20,Incident Response,Escalation matrix corrected,Low,Closed
+AUD-1000,2026-06-28,Training,Annual compliance training completion reached 100%,Low,Closed
