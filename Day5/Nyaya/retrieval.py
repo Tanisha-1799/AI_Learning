@@ -17,9 +17,17 @@ differs slightly per pattern, since each answers a different question:
 """
 
 
+def _distance_to_similarity(distance: float) -> float:
+    """Convert vector distance to a bounded similarity score in [0, 1]."""
+    if distance is None:
+        return 0.0
+    return 1.0 / (1.0 + float(distance))
+
+
 def retrieve_top_k(vectorstore, question: str, k: int = 3):
-    """Simplest pattern: just the K closest chunks, scores included."""
-    return vectorstore.similarity_search_with_relevance_scores(question, k=k)
+    """Simplest pattern: K nearest chunks with normalized similarity scores."""
+    results = vectorstore.similarity_search_with_score(question, k=k)
+    return [(doc, _distance_to_similarity(distance)) for doc, distance in results]
 
 
 def retrieve_mmr(vectorstore, question: str, k: int = 3, fetch_k: int = 10, lambda_mult: float = 0.5):
@@ -38,8 +46,9 @@ def retrieve_threshold(vectorstore, question: str, k: int = 5, min_score: float 
     """Retrieve up to K chunks, but DROP any below min_score. This is the
     pattern that most directly enables an 'I don't know' response — if
     nothing clears the bar, nothing comes back."""
-    results = vectorstore.similarity_search_with_relevance_scores(question, k=k)
-    return [(doc, score) for doc, score in results if score >= min_score]
+    results = vectorstore.similarity_search_with_score(question, k=k)
+    scored = [(doc, _distance_to_similarity(distance)) for doc, distance in results]
+    return [(doc, score) for doc, score in scored if score >= min_score]
 
 
 PATTERNS = {

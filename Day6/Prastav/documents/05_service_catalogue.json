@@ -1,0 +1,35 @@
+{
+  "document_id": "NCS-SVC-CAT-005",
+  "version": "2.1",
+  "effective_date": "01 September 2026",
+  "services": [
+    {
+      "service_name": "Managed Network Services",
+      "category": "Operations",
+      "description": "24x7 monitoring, incident response, and proactive network performance optimization.",
+      "pricing_tier": "Premium",
+      "sla_commitment": "99.95% monthly uptime with 30-minute P1 response"
+    },
+    {
+      "service_name": "Enterprise SD-WAN",
+      "category": "Connectivity",
+      "description": "Policy-driven branch networking with centralized orchestration and secure overlays.",
+      "pricing_tier": "Standard",
+      "sla_commitment": "99.90% monthly uptime with 1-hour P1 response"
+    },
+    {
+      "service_name": "Unified Communications Stack",
+      "category": "Collaboration",
+      "description": "Cloud calling, messaging, and meeting workloads integrated with identity controls.",
+      "pricing_tier": "Standard",
+      "sla_commitment": "99.90% monthly uptime with 1-hour major incident response"
+    },
+    {
+      "service_name": "Zero Trust Access Gateway",
+      "category": "Security",
+      "description": "Context-aware access controls for users, devices, and applications.",
+      "pricing_tier": "Premium",
+      "sla_commitment": "99.95% monthly uptime with 30-minute critical incident response"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+rfp_id,client_name,submission_date,outcome,primary_reason,deal_value_tier
+RFP-2026-001,Northshore Bank,2026-02-18,Won,Superior migration timeline and phased cutover plan,Tier-High
+RFP-2026-002,MetroCare Health,2026-03-05,Lost,Price uncompetitive against incumbent,Tier-High
+RFP-2026-003,Aster Logistics,2026-03-29,Won,Strong managed service SLA commitments,Tier-Medium
+RFP-2026-004,Skyline Retail Group,2026-04-14,Lost,Security compliance appendix submitted late,Tier-Medium
+RFP-2026-005,BluePeak Manufacturing,2026-05-06,Won,Demonstrated multi-site rollout capability,Tier-Low
+RFP-2026-006,Horizon Hospitality,2026-05-28,Lost,Insufficient local support coverage in proposal,Tier-Low
+RFP-2026-007,Vertex Education,2026-06-19,Won,Best score on service continuity and governance model,Tier-Medium
+RFP-2026-008,Civic Transit Authority,2026-07-11,Lost,Weak response detail on disaster recovery testing cadence,Tier-High

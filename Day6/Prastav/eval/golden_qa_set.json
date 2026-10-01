@@ -1,0 +1,53 @@
+[
+  {
+    "question": "What is our historical network uptime track record we can cite in an RFP response?",
+    "expected_source": "01_network_reliability_sla_capability_statement.pdf",
+    "expected_answer_contains": "99.99%"
+  },
+  {
+    "question": "Summarise a past client case study demonstrating network modernisation results.",
+    "expected_source": "02_client_case_study_orion_retail.docx",
+    "expected_answer_contains": "reduced downtime by 35"
+  },
+  {
+    "question": "Who approves special pricing for an RFP, and what's the standard turnaround time for a technical question?",
+    "expected_source": "03_rfp_response_playbook_sales_faq.html",
+    "expected_answer_contains": "Commercial Approval Board"
+  },
+  {
+    "question": "What is a common reason we've lost past RFPs, based on the win/loss log?",
+    "expected_source": "04_rfp_win_loss_log.csv",
+    "expected_answer_contains": "Price uncompetitive"
+  },
+  {
+    "question": "What SLA commitment do we offer for our Managed Network Services tier?",
+    "expected_source": "05_service_catalogue.json",
+    "expected_answer_contains": "99.95% monthly uptime"
+  },
+  {
+    "question": "What MTTR figure should we cite for P1 incidents in proposals?",
+    "expected_source": "01_network_reliability_sla_capability_statement.pdf",
+    "expected_answer_contains": "41 minutes"
+  },
+  {
+    "question": "Which role gives final sign-off for strategic bids above SGD 1M?",
+    "expected_source": "03_rfp_response_playbook_sales_faq.html",
+    "expected_answer_contains": "Vice President, Enterprise Sales"
+  },
+  {
+    "question": "Which service catalogue entry includes a 30-minute P1 response commitment?",
+    "expected_source": "05_service_catalogue.json",
+    "expected_answer_contains": "Managed Network Services"
+  },
+  {
+    "question": "How many Won vs Lost entries are in the RFP win/loss log?",
+    "expected_source": "04_rfp_win_loss_log.csv",
+    "expected_answer_contains": "4 Won"
+  },
+  {
+    "question": "What is our employee annual leave encashment policy?",
+    "expected_source": null,
+    "expected_answer_contains": null,
+    "should_refuse": true
+  }
+]

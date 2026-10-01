@@ -28,16 +28,22 @@ import os
 import shutil
 import sys
 
-import httpx
 from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
-from openai import APIConnectionError
+from openai import APIConnectionError, APIStatusError, OpenAI
 
 from loaders import load_document
 from chunking import chunk_text, STRATEGIES
 from pii import redact_pii
+from ssl_network import (
+    load_network_settings,
+    create_http_client,
+    print_network_summary,
+    print_connection_guidance,
+    describe_exception,
+)
 
 load_dotenv()
 
@@ -46,33 +52,32 @@ COLLECTION_NAME = "nyaya_documents"
 PERSIST_DIR = "./chroma_store"
 
 
-def create_http_client() -> httpx.Client:
-    """Create an HTTP client with optional TLS overrides from environment."""
-    ca_bundle = os.getenv("OPENAI_CA_BUNDLE") or os.getenv("SSL_CERT_FILE")
-    allow_insecure_ssl = os.getenv("ALLOW_INSECURE_SSL", "").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-    }
-
-    if ca_bundle:
-        # Keep requests/tiktoken trust chain aligned with the same custom CA.
-        os.environ["SSL_CERT_FILE"] = ca_bundle
-        os.environ["REQUESTS_CA_BUNDLE"] = ca_bundle
-        os.environ["CURL_CA_BUNDLE"] = ca_bundle
-
-    if allow_insecure_ssl:
-        print("WARNING: SSL certificate verification is disabled (ALLOW_INSECURE_SSL=true).")
-        print("         Use this only for local debugging and never in production.\n")
-
-    verify_setting = ca_bundle if ca_bundle else (False if allow_insecure_ssl else True)
-    return httpx.Client(verify=verify_setting, timeout=60.0)
-
-
 def build(strategy: str):
     print("=" * 64)
     print(f"Nyaya - Building the Knowledge Base (chunking strategy: {strategy})")
     print("=" * 64)
+
+    settings = load_network_settings()
+    print_network_summary(settings)
+    http_client = create_http_client(settings)
+
+    openai_kwargs = {
+        "http_client": http_client,
+        "max_retries": settings.max_retries,
+    }
+    if settings.base_url:
+        openai_kwargs["base_url"] = settings.base_url
+    openai_client = OpenAI(**openai_kwargs)
+
+    try:
+        openai_client.models.list()
+    except APIStatusError as exc:
+        print(f"OpenAI preflight returned API status {exc.status_code}; proceeding to embedding call.")
+    except APIConnectionError as exc:
+        print("\nOpenAI preflight failed before embedding upload.")
+        print_connection_guidance()
+        print(f"\nOriginal error: {describe_exception(exc)}")
+        sys.exit(1)
 
     filepaths = sorted(glob.glob("documents/*"))
     if not filepaths:
@@ -116,13 +121,20 @@ def build(strategy: str):
         print("No PII patterns matched during ingestion.")
 
     print("\nEmbedding and storing in ChromaDB (this calls the OpenAI API)...")
-    http_client = create_http_client()
-    embeddings = OpenAIEmbeddings(
-        model=EMBED_MODEL,
-        http_client=http_client,
+    embed_kwargs = {
+        "model": EMBED_MODEL,
+        "http_client": http_client,
         # Avoid local tokenizer downloads (tiktoken/HuggingFace) in restricted TLS networks.
         # Chunk sizes in this project are already small enough for embedding limits.
-        check_embedding_ctx_length=False,
+        "check_embedding_ctx_length": False,
+        "request_timeout": settings.timeout_sec,
+        "max_retries": settings.max_retries,
+    }
+    if settings.base_url:
+        embed_kwargs["openai_api_base"] = settings.base_url
+
+    embeddings = OpenAIEmbeddings(
+        **embed_kwargs,
     )
 
     # Fresh start every run, so re-running after an edit doesn't duplicate data.
@@ -138,12 +150,8 @@ def build(strategy: str):
         )
     except APIConnectionError as exc:
         print("\nEmbedding request failed due to a connection/TLS issue.")
-        print("If your company uses SSL inspection, configure a trusted CA bundle:")
-        print("  PowerShell example:")
-        print("    $env:OPENAI_CA_BUNDLE = 'C:\\path\\corp-root-ca.pem'")
-        print("For local-only testing (unsafe), you can bypass verification:")
-        print("    $env:ALLOW_INSECURE_SSL = 'true'")
-        print(f"\nOriginal error: {exc}")
+        print_connection_guidance()
+        print(f"\nOriginal error: {describe_exception(exc)}")
         sys.exit(1)
 
     print("\n" + "=" * 64)

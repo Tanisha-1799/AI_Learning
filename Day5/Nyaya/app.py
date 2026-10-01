@@ -14,7 +14,6 @@ Try a question directly in a browser once running:
 """
 import os
 
-import httpx
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from langchain_openai import OpenAIEmbeddings
@@ -23,37 +22,15 @@ from openai import OpenAI, APIConnectionError, APIStatusError
 
 from retrieval import retrieve
 from context import assemble_context
+from ssl_network import load_network_settings, create_http_client, print_network_summary
 
 load_dotenv()
-
-
-def create_http_client() -> httpx.Client:
-    """Create an HTTP client with optional TLS overrides from environment."""
-    ca_bundle = os.getenv("OPENAI_CA_BUNDLE") or os.getenv("SSL_CERT_FILE")
-    allow_insecure_ssl = os.getenv("ALLOW_INSECURE_SSL", "").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-    }
-
-    if ca_bundle:
-        # Keep requests/tiktoken trust chain aligned with the same custom CA.
-        os.environ["SSL_CERT_FILE"] = ca_bundle
-        os.environ["REQUESTS_CA_BUNDLE"] = ca_bundle
-        os.environ["CURL_CA_BUNDLE"] = ca_bundle
-
-    if allow_insecure_ssl:
-        print("WARNING: SSL certificate verification is disabled (ALLOW_INSECURE_SSL=true).")
-        print("         Use this only for local debugging and never in production.\n")
-
-    verify_setting = ca_bundle if ca_bundle else (False if allow_insecure_ssl else True)
-    return httpx.Client(verify=verify_setting, timeout=60.0)
 
 CHAT_MODEL = "gpt-5.4-mini"             # substitute your organisation's approved model
 EMBED_MODEL = "text-embedding-3-small"   # must match build_vectorstore.py
 COLLECTION_NAME = "nyaya_documents"
 PERSIST_DIR = "./chroma_store"
-MIN_CONFIDENCE = 0.3   # below this relevance score, we refuse to answer rather than guess
+MIN_CONFIDENCE = float(os.getenv("NYAYA_MIN_CONFIDENCE", "0.2"))
 
 SYSTEM_PROMPT = """
 You are Nyaya, the NCS Telco+ Legal and Compliance Document Q&A Assistant.
@@ -66,14 +43,32 @@ form (Source: <filename>). If the excerpts don't cover the question, say
 so plainly and do not guess.
 """
 
-http_client = create_http_client()
-client = OpenAI(http_client=http_client)
-embeddings = OpenAIEmbeddings(
-    model=EMBED_MODEL,
-    http_client=http_client,
+settings = load_network_settings()
+print_network_summary(settings)
+http_client = create_http_client(settings)
+
+openai_kwargs = {
+    "http_client": http_client,
+    "max_retries": settings.max_retries,
+}
+if settings.base_url:
+    openai_kwargs["base_url"] = settings.base_url
+client = OpenAI(**openai_kwargs)
+
+embed_kwargs = {
+    "model": EMBED_MODEL,
+    "http_client": http_client,
     # Avoid local tokenizer downloads (tiktoken/HuggingFace) in restricted TLS networks.
     # Query text sizes here are small enough for embedding limits.
-    check_embedding_ctx_length=False,
+    "check_embedding_ctx_length": False,
+    "request_timeout": settings.timeout_sec,
+    "max_retries": settings.max_retries,
+}
+if settings.base_url:
+    embed_kwargs["openai_api_base"] = settings.base_url
+
+embeddings = OpenAIEmbeddings(
+    **embed_kwargs,
 )
 vectorstore = Chroma(
     collection_name=COLLECTION_NAME,
@@ -109,12 +104,13 @@ def ask(q: str, pattern: str = "topk", k: int = 3):
     except APIStatusError as exc:
         raise HTTPException(status_code=exc.status_code, detail=f"OpenAI API error: {exc}") from exc
 
-    # "I don't know" guardrail. If nothing came back, or the best available
-    # score is below our confidence floor, refuse to answer rather than
-    # asking the LLM to generate something from weak or no evidence.
+    # "I don't know" guardrail:
+    # - For topk/mmr, return available context and let grounded prompting decide.
+    # - For threshold, enforce an explicit confidence floor.
     scored = [(doc, score) for doc, score in results if score is not None]
     best_score = max((score for _, score in scored), default=None)
-    if not results or (best_score is not None and best_score < MIN_CONFIDENCE):
+    enforce_confidence = pattern == "threshold"
+    if not results or (enforce_confidence and best_score is not None and best_score < MIN_CONFIDENCE):
         return {
             "question": q,
             "pattern": pattern,

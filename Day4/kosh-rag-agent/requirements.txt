@@ -6,3 +6,4 @@ uvicorn
 requests
 httpx
 python-certifi-win32
+truststore

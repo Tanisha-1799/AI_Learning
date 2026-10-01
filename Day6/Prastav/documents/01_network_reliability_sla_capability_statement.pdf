@@ -1,0 +1,47 @@
+%PDF-1.1
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 455 >>
+stream
+BT
+/F1 14 Tf
+50 740 Td
+(Network Reliability and SLA Capability Statement) Tj
+0 -22 Td
+/F1 11 Tf
+(Document ID: NCS-CAP-001 | Version: 2.3 | Effective Date: 15 July 2026) Tj
+0 -30 Td
+(NCS Telco+ historical uptime: 99.99% over the last 3 years.) Tj
+0 -20 Td
+(Mean Time to Repair \(MTTR\): 41 minutes for P1 incidents.) Tj
+0 -20 Td
+(Compliance: ISO/IEC 27001:2022 and SOC 2 Type II.) Tj
+0 -20 Td
+(These values are approved for citation in RFP responses.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000063 00000 n 
+0000000120 00000 n 
+0000000246 00000 n 
+0000000316 00000 n 
+trailer
+<< /Root 1 0 R /Size 6 >>
+startxref
+827
+%%EOF

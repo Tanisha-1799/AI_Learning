@@ -1,0 +1,6 @@
+.env
+chroma_store/
+audit_log.db
+__pycache__/
+*.pyc
+venv/

@@ -17,9 +17,16 @@ import os
 import sys
 
 import chromadb
-import httpx
 from dotenv import load_dotenv
-from openai import APIConnectionError, OpenAI
+from openai import APIConnectionError, APIStatusError, OpenAI
+
+from ssl_network import (
+    load_network_settings,
+    create_http_client,
+    print_network_summary,
+    print_connection_guidance,
+    describe_exception,
+)
 
 load_dotenv()
 
@@ -29,26 +36,16 @@ CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
 COLLECTION_NAME = "finance_docs"
 
+settings = load_network_settings()
+http_client = create_http_client(settings)
 
-def create_openai_client():
-    """Create OpenAI client with optional TLS overrides from environment."""
-    ca_bundle = os.getenv("OPENAI_CA_BUNDLE") or os.getenv("SSL_CERT_FILE")
-    allow_insecure_ssl = os.getenv("ALLOW_INSECURE_SSL", "").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-    }
-
-    if allow_insecure_ssl:
-        print("WARNING: SSL certificate verification is disabled (ALLOW_INSECURE_SSL=true).")
-        print("         Use this only for local debugging and never in production.\n")
-
-    verify_setting = ca_bundle if ca_bundle else (False if allow_insecure_ssl else True)
-    http_client = httpx.Client(verify=verify_setting, timeout=60.0)
-    return OpenAI(http_client=http_client)
-
-
-client = create_openai_client()
+openai_kwargs = {
+    "http_client": http_client,
+    "max_retries": settings.max_retries,
+}
+if settings.base_url:
+    openai_kwargs["base_url"] = settings.base_url
+client = OpenAI(**openai_kwargs)
 
 
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
@@ -72,6 +69,18 @@ def main():
     print("=" * 60)
     print("Kosh - Building the Finance Policy Vector Store")
     print("=" * 60)
+
+    print_network_summary(settings)
+
+    try:
+        client.models.list()
+    except APIStatusError as exc:
+        print(f"OpenAI preflight returned API status {exc.status_code}; proceeding to embedding call.")
+    except APIConnectionError as exc:
+        print("\nOpenAI preflight failed before embedding upload.")
+        print_connection_guidance()
+        print(f"\nOriginal error: {describe_exception(exc)}")
+        sys.exit(1)
 
     chroma_client = chromadb.PersistentClient(path="./chroma_store")
 
@@ -105,12 +114,8 @@ def main():
                 embedding = embed(chunk)
             except APIConnectionError as exc:
                 print("\nEmbedding request failed due to a connection/TLS issue.")
-                print("If your company uses SSL inspection, configure a trusted CA bundle:")
-                print("  PowerShell example:")
-                print("    $env:OPENAI_CA_BUNDLE = 'C:\\path\\corp-root-ca.pem'")
-                print("For local-only testing (unsafe), you can bypass verification:")
-                print("    $env:ALLOW_INSECURE_SSL = 'true'")
-                print(f"\nOriginal error: {exc}")
+                print_connection_guidance()
+                print(f"\nOriginal error: {describe_exception(exc)}")
                 sys.exit(1)
 
             collection.add(

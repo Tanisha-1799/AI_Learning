@@ -13,9 +13,12 @@ IMPORTANT: app.py must already be running in a separate terminal
 Run:
     python agent.py
 """
+import os
+from urllib.parse import urlsplit, urlunsplit
+
 import requests
 
-BASE_URL = "http://localhost:8000/ask"
+BASE_URL = os.getenv("NYAYA_BASE_URL", "http://localhost:8000/ask")
 
 # One question per document/format, in the same order as documents/.
 QUESTIONS = [
@@ -35,10 +38,32 @@ def ask_nyaya(question: str, pattern: str = "topk", k: int = 3) -> dict:
     return response.json()
 
 
+def check_backend_identity() -> None:
+    """Warn if configured BASE_URL host/port is not serving Nyaya."""
+    try:
+        parsed = urlsplit(BASE_URL)
+        root_url = urlunsplit((parsed.scheme, parsed.netloc, "/", "", ""))
+        response = requests.get(root_url, timeout=10)
+        response.raise_for_status()
+        payload = response.json() if response.headers.get("content-type", "").startswith("application/json") else {}
+        message = str(payload.get("message", ""))
+        if "Nyaya" not in message:
+            print("WARNING: Configured backend does not look like Nyaya.")
+            print(f"         Root message: {message or '(none)'}")
+            print(f"         Root URL checked: {root_url}")
+            print("         Start Nyaya app.py on this port, or update NYAYA_BASE_URL.")
+    except Exception:
+        # Normal error handling is already done in the main ask loop.
+        pass
+
+
 def main():
     print("=" * 60)
     print("Nyaya - NCS Telco+ Legal and Compliance Document Intelligence")
     print("=" * 60)
+    print(f"Backend: {BASE_URL}")
+
+    check_backend_identity()
 
     for i, question in enumerate(QUESTIONS, start=1):
         print(f"\nQ{i}: {question}")
@@ -59,9 +84,12 @@ def main():
         if not result["retrieved_chunks"]:
             print("  (No chunks cleared the confidence threshold.)")
         for chunk in result["retrieved_chunks"]:
-            print(f"    - {chunk['source']}  (score={chunk['relevance_score']})  "
-                  f"metadata={chunk['metadata']}")
-            print(f"      \"{chunk['text_preview']}\"")
+            score = chunk.get("relevance_score", chunk.get("score", "n/a"))
+            metadata = chunk.get("metadata", {})
+            source = chunk.get("source", "unknown")
+            preview = chunk.get("text_preview", "")
+            print(f"    - {source}  (score={score})  metadata={metadata}")
+            print(f"      \"{preview}\"")
 
         print(f"\nA{i}: {result['answer']}")
         print(f"     (Sources: {', '.join(result['sources']) if result['sources'] else 'none'})")
@@ -75,7 +103,8 @@ def main():
         result = ask_nyaya(BONUS_QUESTION, pattern=pattern)
         print(f"Chunks retrieved: {len(result['retrieved_chunks'])}")
         for chunk in result["retrieved_chunks"]:
-            print(f"    - {chunk['source']} (score={chunk['relevance_score']})")
+            score = chunk.get("relevance_score", chunk.get("score", "n/a"))
+            print(f"    - {chunk.get('source', 'unknown')} (score={score})")
         print(f"Answer preview: {result['answer'][:150]}...\n")
 
     print("=" * 60)

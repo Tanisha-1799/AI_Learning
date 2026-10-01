@@ -1,0 +1,11 @@
+location_code,depot_name,role_band,min_pay_inr,max_pay_inr,effective_quarter
+MFL-PUN-01,Pune Central Depot,Band A - Warehouse Associate,22000,28000,Q3-2026
+MFL-PUN-01,Pune Central Depot,Band B - Shift Supervisor,32000,40000,Q3-2026
+MFL-LKO-02,Lucknow North Depot,Band A - Warehouse Associate,20000,26000,Q3-2026
+MFL-LKO-02,Lucknow North Depot,Band B - Shift Supervisor,29000,37000,Q3-2026
+MFL-BLR-03,Bengaluru East Depot,Band A - Warehouse Associate,24000,30000,Q3-2026
+MFL-BLR-03,Bengaluru East Depot,Band B - Shift Supervisor,35000,44000,Q3-2026
+MFL-DEL-04,Delhi West Depot,Band A - Warehouse Associate,23000,29000,Q3-2026
+MFL-DEL-04,Delhi West Depot,Band B - Shift Supervisor,33000,42000,Q3-2026
+MFL-PUN-01,Pune Central Depot,Band C - Depot Manager,55000,70000,Q3-2026
+MFL-LKO-02,Lucknow North Depot,Band C - Depot Manager,50000,64000,Q3-2026

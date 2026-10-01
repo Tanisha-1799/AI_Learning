@@ -1,0 +1,29 @@
+{
+  "document_id": "SOL-UW-TIERS-02",
+  "version": "2.0",
+  "effective_date": "2026-01-15",
+  "classification": "Internal Use Only (Training Sample Data)",
+  "coverage_tiers": [
+    {
+      "tier_name": "Essential",
+      "annual_premium_range_inr": "8000-14000",
+      "pre_existing_condition_waiting_period_months": 24,
+      "max_claim_amount_inr": 300000,
+      "late_filing_grace_days": 90
+    },
+    {
+      "tier_name": "Standard",
+      "annual_premium_range_inr": "15000-25000",
+      "pre_existing_condition_waiting_period_months": 12,
+      "max_claim_amount_inr": 750000,
+      "late_filing_grace_days": 90
+    },
+    {
+      "tier_name": "Premium",
+      "annual_premium_range_inr": "28000-45000",
+      "pre_existing_condition_waiting_period_months": 6,
+      "max_claim_amount_inr": 1500000,
+      "late_filing_grace_days": 120
+    }
+  ]
+}

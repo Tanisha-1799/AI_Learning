@@ -1,0 +1,35 @@
+{
+  "document_id": "MFL-HR-MOBILITY-01",
+  "version": "1.4",
+  "effective_date": "2026-08-01",
+  "classification": "Internal Use Only (Training Sample Data)",
+  "open_positions": [
+    {
+      "position_id": "MFL-JOB-2201",
+      "title": "Shift Supervisor",
+      "location_code": "MFL-BLR-03",
+      "depot_name": "Bengaluru East Depot",
+      "band": "Band B",
+      "minimum_tenure_months_required": 12,
+      "application_deadline": "2026-09-15"
+    },
+    {
+      "position_id": "MFL-JOB-2202",
+      "title": "Warehouse Associate",
+      "location_code": "MFL-DEL-04",
+      "depot_name": "Delhi West Depot",
+      "band": "Band A",
+      "minimum_tenure_months_required": 0,
+      "application_deadline": "2026-09-10"
+    },
+    {
+      "position_id": "MFL-JOB-2203",
+      "title": "Depot Manager",
+      "location_code": "MFL-LKO-02",
+      "depot_name": "Lucknow North Depot",
+      "band": "Band C",
+      "minimum_tenure_months_required": 24,
+      "application_deadline": "2026-09-30"
+    }
+  ]
+}

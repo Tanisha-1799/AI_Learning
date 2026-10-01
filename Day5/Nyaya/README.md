@@ -140,6 +140,21 @@ python build_vectorstore.py --strategy fixed
 - Could not reach API: ensure uvicorn app is running on port 8000.
 - All answers are refused: lower MIN_CONFIDENCE in app.py cautiously.
 
+Additional corporate-network options:
+
+- If corporate root CA is already in OS trust store, keep:
+	- OPENAI_USE_SYSTEM_CERT_STORE=true
+- If a proxy is required:
+	- OPENAI_PROXY=http://proxy-host:port
+- If an enterprise gateway endpoint is required:
+	- OPENAI_BASE_URL=https://your-gateway.example/v1
+- For slower networks:
+	- OPENAI_TIMEOUT_SEC=120
+	- OPENAI_MAX_RETRIES=5
+
+Nyaya now uses a centralized network module (`ssl_network.py`) in both
+`build_vectorstore.py` and `app.py`, so TLS/proxy settings stay consistent.
+
 ## 10) Submission Checklist
 
 - documents/ contains all 5 required files.

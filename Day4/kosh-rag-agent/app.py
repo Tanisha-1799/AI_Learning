@@ -11,10 +11,10 @@ Run after building the vector store:
 import os
 
 import chromadb
-import httpx
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from openai import APIConnectionError, APIStatusError, OpenAI
+from ssl_network import load_network_settings, create_http_client, print_network_summary
 
 load_dotenv()
 
@@ -40,26 +40,16 @@ personal financial planning. Stay within internal Finance policy interpretation.
 Always mention which policy document(s) your answer is based on.
 """
 
-
-def create_openai_client():
-    """Create OpenAI client with optional TLS overrides from environment."""
-    ca_bundle = os.getenv("OPENAI_CA_BUNDLE") or os.getenv("SSL_CERT_FILE")
-    allow_insecure_ssl = os.getenv("ALLOW_INSECURE_SSL", "").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-    }
-
-    if allow_insecure_ssl:
-        print("WARNING: SSL certificate verification is disabled (ALLOW_INSECURE_SSL=true).")
-        print("         Use this only for local debugging and never in production.\n")
-
-    verify_setting = ca_bundle if ca_bundle else (False if allow_insecure_ssl else True)
-    http_client = httpx.Client(verify=verify_setting, timeout=60.0)
-    return OpenAI(http_client=http_client)
-
-
-client = create_openai_client()
+settings = load_network_settings()
+print_network_summary(settings)
+http_client = create_http_client(settings)
+openai_kwargs = {
+    "http_client": http_client,
+    "max_retries": settings.max_retries,
+}
+if settings.base_url:
+    openai_kwargs["base_url"] = settings.base_url
+client = OpenAI(**openai_kwargs)
 chroma_client = chromadb.PersistentClient(path="./chroma_store")
 collection = chroma_client.get_collection(COLLECTION_NAME)
 

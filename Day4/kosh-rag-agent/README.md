@@ -50,11 +50,22 @@ Windows PowerShell:
 
 If you are on a corporate network with TLS inspection:
 - Preferred: set OPENAI_CA_BUNDLE to your trusted CA PEM file.
+- If your corporate root CA is installed in Windows trust store, keep
+	OPENAI_USE_SYSTEM_CERT_STORE=true.
+- If a proxy or enterprise gateway is required, set OPENAI_PROXY and/or
+	OPENAI_BASE_URL.
 - Temporary local workaround: set ALLOW_INSECURE_SSL=true.
 
 Example PowerShell:
 - $env:OPENAI_CA_BUNDLE = "C:\path\corp-root-ca.pem"
+- $env:OPENAI_PROXY = "http://proxy-host:port"
+- $env:OPENAI_BASE_URL = "https://your-gateway.example/v1"
+- $env:OPENAI_TIMEOUT_SEC = "120"
+- $env:OPENAI_MAX_RETRIES = "5"
 - OR $env:ALLOW_INSECURE_SSL = "true"
+
+This project now uses a centralized network module: `ssl_network.py`.
+Both `build_vectorstore.py` and `app.py` read the same SSL/proxy settings.
 
 ## Finance policies in this project
 
